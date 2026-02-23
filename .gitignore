@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+ml-services/venv/
+ml-services/.venv/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+__pycache__/
+*.pyc
+*.pyo
+
+# Data & DB
+ml-services/data/*.db
+ml-services/data/*.sqlite
+*.db
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# ML artifacts
+*.pkl
+*.h5
+*.joblib
+mlruns/
+mlartifacts/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Misc
+.gemini/

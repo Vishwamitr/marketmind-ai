@@ -742,3 +742,69 @@ def get_market_hours():
     _market_hours_cache["data"] = result
     _market_hours_cache["ts"] = _time.time()
     return result
+
+
+# ── Earnings Calendar ─────────────────────────────────────────────────
+
+EARNINGS_UNIVERSE = [
+    "RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK",
+    "KOTAKBANK", "LT", "HINDUNILVR", "SBIN", "BAJFINANCE",
+    "HCLTECH", "TITAN", "SUNPHARMA", "WIPRO", "ULTRACEMCO",
+    "NESTLEIND", "TATAMOTORS", "TATASTEEL", "M&M", "TECHM",
+    "MARUTI", "DRREDDY", "ADANIENT", "JSWSTEEL", "POWERGRID",
+    "NTPC", "ASIANPAINT", "AXISBANK",
+]
+
+
+@router.get("/market/earnings")
+async def get_earnings_calendar():
+    """
+    Return upcoming earnings dates for NIFTY 50 stocks from yfinance.
+    Skips symbols where yfinance has no calendar data.
+    """
+    import yfinance as yf
+    from datetime import datetime, timezone, timedelta
+
+    results = []
+    now = datetime.now(timezone.utc)
+    cutoff = now + timedelta(days=90)
+
+    for sym in EARNINGS_UNIVERSE:
+        try:
+            info = yf.Ticker(f"{sym}.NS").info
+            # yfinance sometimes exposes earningsDate as a list of timestamps
+            ed = info.get("earningsDate") or info.get("earningsTimestamp")
+            if not ed:
+                continue
+            if isinstance(ed, (list, tuple)):
+                for ts in ed:
+                    try:
+                        dt = datetime.fromtimestamp(int(ts), tz=timezone.utc)
+                        if now <= dt <= cutoff:
+                            results.append({
+                                "symbol": sym,
+                                "company": info.get("longName", sym),
+                                "date": dt.strftime("%Y-%m-%d"),
+                                "eps_estimate": info.get("epsForward") or info.get("trailingEps"),
+                                "market_cap": info.get("marketCap"),
+                            })
+                    except Exception:
+                        continue
+            else:
+                try:
+                    dt = datetime.fromtimestamp(int(ed), tz=timezone.utc)
+                    if now <= dt <= cutoff:
+                        results.append({
+                            "symbol": sym,
+                            "company": info.get("longName", sym),
+                            "date": dt.strftime("%Y-%m-%d"),
+                            "eps_estimate": info.get("epsForward") or info.get("trailingEps"),
+                            "market_cap": info.get("marketCap"),
+                        })
+                except Exception:
+                    continue
+        except Exception:
+            continue
+
+    results.sort(key=lambda x: x["date"])
+    return {"earnings": results, "count": len(results)}

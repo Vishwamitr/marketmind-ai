@@ -73,6 +73,17 @@ export const endpoints = {
     alerts_triggered: `${API_BASE_URL}/api/alerts/triggered`,
     alerts_check: `${API_BASE_URL}/api/alerts/check`,
     alerts_delete: (id: number) => `${API_BASE_URL}/api/alerts/${id}`,
+
+    // Phase 3 — Earnings Calendar
+    earnings: `${API_BASE_URL}/api/market/earnings`,
+
+    // Phase 3 — Options Flow Scanner
+    options_flow: `${API_BASE_URL}/api/options/flow`,
+
+    // Phase 3 — Trade Journal
+    journal: `${API_BASE_URL}/api/journal`,
+    journal_stats: `${API_BASE_URL}/api/journal/stats`,
+    journal_delete: (id: number) => `${API_BASE_URL}/api/journal/${id}`,
 };
 
 export default API_BASE_URL;

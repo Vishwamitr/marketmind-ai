@@ -548,3 +548,98 @@ def get_iv_smile(symbol: str, expiry: Optional[str] = None):
     except Exception as e:
         logger.error(f"IV smile failed for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── Options Flow Scanner ──────────────────────────────────────────────
+
+FLOW_UNIVERSE = [
+    "NIFTY", "BANKNIFTY", "RELIANCE", "TCS", "HDFCBANK",
+    "INFY", "ICICIBANK", "SBIN", "LT", "BAJFINANCE",
+    "KOTAKBANK", "HINDUNILVR", "TATAMOTORS", "MARUTI", "HCLTECH",
+]
+
+
+@router.get("/options/flow")
+async def get_options_flow(limit: int = 25):
+    """
+    Scan F&O stocks for unusual options activity.
+    Flags: Bullish Call Sweep, Bearish Put Sweep, Straddle Build-up.
+    Volume >> OI ratio indicates aggressive fresh buying (institutional flow).
+    """
+    import yfinance as yf
+
+    flows = []
+
+    for sym in FLOW_UNIVERSE:
+        try:
+            ns = f"{sym}.NS" if sym not in ("NIFTY", "BANKNIFTY") else (
+                "^NSEI" if sym == "NIFTY" else "^NSEBANK"
+            )
+            tk = yf.Ticker(ns)
+            expiries = tk.options
+            if not expiries:
+                continue
+            # Use nearest expiry
+            exp = expiries[0]
+            chain = tk.option_chain(exp)
+
+            spot = tk.info.get("regularMarketPrice") or tk.info.get("currentPrice") or 0
+
+            for opt_type, df in [("call", chain.calls), ("put", chain.puts)]:
+                if df is None or df.empty:
+                    continue
+                for _, row in df.iterrows():
+                    vol = row.get("volume") or 0
+                    oi  = row.get("openInterest") or 0
+                    iv  = row.get("impliedVolatility") or 0
+                    ltp = row.get("lastPrice") or 0
+                    strike = row.get("strike") or 0
+
+                    if vol < 100 or oi < 10:
+                        continue
+
+                    vol_oi_ratio = vol / oi if oi else 0
+
+                    # Unusual if vol > 5x OI
+                    if vol_oi_ratio < 5:
+                        continue
+
+                    premium_value = vol * ltp * 100  # approximate lot value
+
+                    # Classify flow
+                    if opt_type == "call":
+                        if strike > spot * 1.02:
+                            flow_type = "Bullish Call Sweep"
+                            sentiment = "bullish"
+                        else:
+                            flow_type = "ITM Call Buy"
+                            sentiment = "bullish"
+                    else:
+                        if strike < spot * 0.98:
+                            flow_type = "Bearish Put Sweep"
+                            sentiment = "bearish"
+                        else:
+                            flow_type = "ITM Put Buy"
+                            sentiment = "bearish"
+
+                    # Check straddle: both call+put activity at same strike
+                    flows.append({
+                        "symbol": sym,
+                        "expiry": exp,
+                        "type": opt_type.upper(),
+                        "strike": float(strike),
+                        "ltp": round(float(ltp), 2),
+                        "volume": int(vol),
+                        "open_interest": int(oi),
+                        "vol_oi_ratio": round(vol_oi_ratio, 1),
+                        "iv": round(float(iv) * 100, 1),
+                        "premium_value": round(premium_value),
+                        "flow_type": flow_type,
+                        "sentiment": sentiment,
+                    })
+        except Exception:
+            continue
+
+    # Sort by premium value (largest trades first)
+    flows.sort(key=lambda x: x["premium_value"], reverse=True)
+    return {"flows": flows[:limit], "count": len(flows)}

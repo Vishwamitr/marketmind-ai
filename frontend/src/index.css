@@ -65,7 +65,9 @@
 /* ============================================
    Global Resets
    ============================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -86,6 +88,7 @@ a {
   text-decoration: none;
   transition: var(--transition);
 }
+
 a:hover {
   color: var(--accent-indigo);
 }
@@ -102,6 +105,7 @@ a:hover {
   box-shadow: var(--shadow-card);
   transition: var(--transition);
 }
+
 .glass-card:hover {
   background: var(--bg-glass-hover);
   border-color: var(--border-accent);
@@ -132,26 +136,31 @@ a:hover {
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
+
 .badge-bullish {
   background: rgba(16, 185, 129, 0.15);
   color: #34d399;
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
+
 .badge-bearish {
   background: rgba(239, 68, 68, 0.15);
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
+
 .badge-sideways {
   background: rgba(245, 158, 11, 0.15);
   color: #fbbf24;
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
+
 .badge-volatile {
   background: rgba(139, 92, 246, 0.15);
   color: #a78bfa;
   border: 1px solid rgba(139, 92, 246, 0.3);
 }
+
 .badge-unknown {
   background: rgba(100, 116, 139, 0.15);
   color: #94a3b8;
@@ -161,12 +170,25 @@ a:hover {
 /* ============================================
    Change Colors
    ============================================ */
-.text-gain { color: var(--accent-green); }
-.text-loss { color: var(--accent-red); }
-.text-neutral { color: var(--text-muted); }
+.text-gain {
+  color: var(--accent-green);
+}
 
-.bg-gain { background: rgba(16, 185, 129, 0.1); }
-.bg-loss { background: rgba(239, 68, 68, 0.1); }
+.text-loss {
+  color: var(--accent-red);
+}
+
+.text-neutral {
+  color: var(--text-muted);
+}
+
+.bg-gain {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.bg-loss {
+  background: rgba(239, 68, 68, 0.1);
+}
 
 /* ============================================
    Buttons
@@ -184,29 +206,35 @@ a:hover {
   transition: var(--transition);
   font-family: inherit;
 }
+
 .btn-primary {
   background: var(--gradient-primary);
   color: white;
   box-shadow: 0 2px 12px rgba(99, 102, 241, 0.3);
 }
+
 .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
 }
+
 .btn-ghost {
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
 }
+
 .btn-ghost:hover {
   background: var(--bg-glass);
   color: var(--text-primary);
   border-color: var(--border-accent);
 }
+
 .btn-danger {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
 }
+
 .btn-success {
   background: var(--gradient-success);
   color: white;
@@ -227,10 +255,12 @@ a:hover {
   outline: none;
   width: 100%;
 }
+
 .input:focus {
   border-color: var(--accent-indigo);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
+
 .input::placeholder {
   color: var(--text-muted);
 }
@@ -251,6 +281,7 @@ select.input {
   border-collapse: separate;
   border-spacing: 0;
 }
+
 .data-table th {
   padding: 12px 16px;
   text-align: left;
@@ -262,19 +293,23 @@ select.input {
   border-bottom: 1px solid var(--border-subtle);
   background: rgba(255, 255, 255, 0.02);
 }
+
 .data-table td {
   padding: 12px 16px;
   font-size: 0.875rem;
   border-bottom: 1px solid var(--border-subtle);
   transition: var(--transition);
 }
+
 .data-table tbody tr {
   cursor: pointer;
   transition: var(--transition);
 }
+
 .data-table tbody tr:hover {
   background: var(--bg-glass-hover);
 }
+
 .data-table tbody tr:hover td {
   color: var(--text-primary);
 }
@@ -286,13 +321,16 @@ select.input {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
@@ -301,31 +339,61 @@ select.input {
    Animations
    ============================================ */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(-12px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
+
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(99, 102, 241, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  }
 }
+
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out forwards;
 }
+
 .animate-slide-in {
   animation: slideIn 0.3s ease-out forwards;
 }
 
 .skeleton {
-  background: linear-gradient(90deg, var(--bg-glass) 25%, rgba(255,255,255,0.08) 50%, var(--bg-glass) 75%);
+  background: linear-gradient(90deg, var(--bg-glass) 25%, rgba(255, 255, 255, 0.08) 50%, var(--bg-glass) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;
@@ -344,6 +412,7 @@ select.input {
 .page-header {
   margin-bottom: 28px;
 }
+
 .page-header h1 {
   font-size: 1.75rem;
   font-weight: 700;
@@ -351,6 +420,7 @@ select.input {
   margin: 0 0 4px 0;
   line-height: 1.2;
 }
+
 .page-header p {
   color: var(--text-secondary);
   font-size: 0.875rem;
@@ -381,19 +451,23 @@ select.input {
 .recharts-cartesian-grid-vertical line {
   stroke: rgba(255, 255, 255, 0.04);
 }
+
 .recharts-text {
   fill: var(--text-muted) !important;
   font-size: 0.75rem;
 }
+
 .recharts-tooltip-wrapper .recharts-default-tooltip {
   background: var(--bg-secondary) !important;
   border: 1px solid var(--border-subtle) !important;
   border-radius: 10px !important;
   box-shadow: var(--shadow-card) !important;
 }
+
 .recharts-tooltip-item {
   color: var(--text-primary) !important;
 }
+
 .recharts-legend-item-text {
   color: var(--text-secondary) !important;
 }
@@ -402,28 +476,48 @@ select.input {
    Animations & UI Polish
    ============================================ */
 @keyframes shimmerMove {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
+
 .shimmer {
-  background: linear-gradient(90deg, var(--bg-secondary) 25%, rgba(99,102,241,0.08) 50%, var(--bg-secondary) 75%);
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, rgba(99, 102, 241, 0.08) 50%, var(--bg-secondary) 75%);
   background-size: 200% 100%;
   animation: shimmerMove 1.5s ease-in-out infinite;
   border-radius: 10px;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .animate-fade-in {
   animation: fadeIn 0.35s ease-out;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
+
 .spin {
   animation: spin 1s linear infinite;
 }
@@ -431,4 +525,32 @@ select.input {
 /* Table hover */
 tr:hover td {
   background: rgba(99, 102, 241, 0.04);
+}
+
+/* Live Ticker */
+@keyframes tickerScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .grid-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .page-container {
+    padding: 0 12px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-metrics {
+    grid-template-columns: 1fr;
+  }
 }

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routers import stocks, news, portfolio, backtest, admin, monitor, system, realtime, auth, compliance
 from api.routers import watchlist, recommendations, predictions
-from api.routers import mutual_funds, options, alerts
+from api.routers import mutual_funds, options, alerts, journal
 from strawberry.fastapi import GraphQLRouter
 from api.graphql_schema import schema
 from api.security import limiter, _rate_limit_exceeded_handler, RateLimitExceeded
@@ -57,6 +57,7 @@ app.include_router(predictions.router, prefix="/api", tags=["Predictions"])
 app.include_router(mutual_funds.router, prefix="/api", tags=["Mutual Funds"])
 app.include_router(options.router, prefix="/api", tags=["Options"])
 app.include_router(alerts.router, prefix="/api", tags=["Alerts"])
+app.include_router(journal.router, prefix="/api", tags=["Journal"])
 
 @app.get("/")
 def read_root():

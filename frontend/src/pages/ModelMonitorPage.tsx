@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Activity, RefreshCw, AlertTriangle, CheckCircle } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import MetricsCard from '../components/MetricsCard';
+
 import { endpoints } from '../config';
 
 interface ModelMetrics {

@@ -19,7 +19,11 @@ import {
     Bell,
     Grid3X3,
     GitCompareArrows,
-    Calculator
+    Calculator,
+    Calendar,
+    Waves,
+    PieChart,
+    BookOpen
 } from 'lucide-react';
 
 interface NavItem {
@@ -48,6 +52,11 @@ const navItems: NavItem[] = [
     { path: '/compare', label: 'Compare', icon: <GitCompareArrows size={20} />, section: 'Tools' },
     { path: '/position-calc', label: 'Position Calc', icon: <Calculator size={20} /> },
     { path: '/backtest', label: 'Backtest', icon: <BarChart3 size={20} /> },
+    // Intelligence (Phase 3)
+    { path: '/earnings', label: 'Earnings', icon: <Calendar size={20} />, section: 'Intelligence', badge: 'NEW' },
+    { path: '/flow-scanner', label: 'Flow Scanner', icon: <Waves size={20} />, badge: 'NEW' },
+    { path: '/strategy-builder', label: 'Strategy Builder', icon: <PieChart size={20} /> },
+    { path: '/journal', label: 'Trade Journal', icon: <BookOpen size={20} /> },
     // System
     { path: '/monitor', label: 'Monitor', icon: <Activity size={20} />, section: 'System' },
     { path: '/admin', label: 'Admin', icon: <Shield size={20} /> },
